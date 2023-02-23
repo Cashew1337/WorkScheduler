@@ -31,6 +31,7 @@ $(function dayPlanner() {
     const $hourSpan = $('<span>');
     $hourSpan.attr('class','timeBox');
     
+    //Displays the hour in the left-hand column of the row div
     let displayHour = 0;
     let ampm = "";
     if (hour > 12) { 
@@ -45,7 +46,34 @@ $(function dayPlanner() {
 
     $rowDiv.append($colTimeDiv);
     $colTimeDiv.append($hourSpan);
+      
+    //Creates the event input and event column
+    let $dailyPlanSpn = $('<input>');
 
+    $dailyPlanSpn.attr('id',`input-${index}`);
+    $dailyPlanSpn.attr('hour-index',index);
+    $dailyPlanSpn.attr('type','text');
+    $dailyPlanSpn.attr('class','dailyPlan');
+
+    $dailyPlanSpn.val( eventTextArry[index] );
+
+    let $colIptDiv = $('<div>');
+    $colIptDiv.addClass('col-8 col-md-10');
+
+    $rowDiv.append($colIptDiv);
+    $colIptDiv.append($dailyPlanSpn);
+
+    //Creates the save buttons
+    let $colSaveDiv = $('<div>');
+    $colSaveDiv.addClass('col-2 col-md-1');
+
+    let $saveBtn = $('<i>');
+    $saveBtn.attr('id',`saveid-${index}`);
+    $saveBtn.attr('save-id',index);
+    $saveBtn.attr('class',"far fa-save saveIcon");
+    
+    $rowDiv.append($colSaveDiv);
+    $colSaveDiv.append($saveBtn);
 
     //Add rows to the container
     planner.append($rowDiv);
@@ -57,7 +85,6 @@ $(function dayPlanner() {
   // function? How can DOM traversal be used to get the "hour-x" id of the
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
-  save.attr('type', 'button');
   $('textArea').attr({
     type: 'text',
     id: 'input',
