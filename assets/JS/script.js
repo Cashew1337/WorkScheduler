@@ -25,8 +25,8 @@ $(function dayPlanner() {
     $rowDiv.attr('id', hour);
   
     //Creates the left hand column with hours of the day
-    let $colTimeDiv = $('<div>');
-    $colTimeDiv.addClass('col-2 col-md-1 text-center py-3');
+    let $hourDiv = $('<div>');
+    $hourDiv.addClass('col-2 col-md-1 text-center py-3');
   
     const $hourSpan = $('<span>');
     $hourSpan.attr('class','timeBox');
@@ -44,39 +44,51 @@ $(function dayPlanner() {
     
     $hourSpan.text(`${displayHour} ${ampm}`);
 
-    $rowDiv.append($colTimeDiv);
-    $colTimeDiv.append($hourSpan);
+    $rowDiv.append($hourDiv);
+    $hourDiv.append($hourSpan);
       
     //Creates the event input and event column
-    let $dailyPlanSpn = $('<input>');
+    let $planSpnDiv = $('<textarea>');
+    let $planSpn = $('<span>')
 
-    $dailyPlanSpn.attr('id',`input-${index}`);
-    $dailyPlanSpn.attr('hour-index',index);
-    $dailyPlanSpn.attr('type','text');
-    $dailyPlanSpn.attr('class','dailyPlan');
+    $planSpnDiv.attr('id', `input-${index}`);
+    $planSpnDiv.attr('hour-index', index);
+    $planSpnDiv.attr('class', 'dailyPlan col-8 col-md-10');
+    $planSpn.attr('type', 'eventText');
 
-    $dailyPlanSpn.val( eventTextArry[index] );
+    $planSpn.val( eventTextArry[index] );
 
-    let $colIptDiv = $('<div>');
-    $colIptDiv.addClass('col-8 col-md-10');
-
-    $rowDiv.append($colIptDiv);
-    $colIptDiv.append($dailyPlanSpn);
+    $planSpnDiv.append($planSpn);
+    $rowDiv.append($planSpnDiv);
 
     //Creates the save buttons
-    let $colSaveDiv = $('<div>');
-    $colSaveDiv.addClass('col-2 col-md-1');
+    let $saveBtnDiv = $('<div>');
+    $saveBtnDiv.addClass('col-2 col-md-1');
 
     let $saveBtn = $('<i>');
-    $saveBtn.attr('id',`saveid-${index}`);
-    $saveBtn.attr('save-id',index);
-    $saveBtn.attr('class',"far fa-save saveIcon");
+    $saveBtn.attr('id', `saveid-${index}`);
+    $saveBtn.attr('save-id', index);
+    $saveBtn.attr('class', "far fa-save saveIcon");
     
-    $rowDiv.append($colSaveDiv);
-    $colSaveDiv.append($saveBtn);
+    $rowDiv.append($saveBtnDiv);
+    $saveBtnDiv.append($saveBtn);
 
     //Add rows to the container
     planner.append($rowDiv);
+    var idHour = $('textarea').parents().attr('id')
+    if (idHour < currentTime.$H) {
+      $(textarea).attr('id', 'past');
+    // } else if (hour = currentTime.$H) {
+    //   $planSpn.removeAttr('id', 'past');
+    //   $planSpn.attr('id', 'present');
+    } else {
+      // $planSpn.removeAttr('id', 'present');
+      $(textarea).attr('id', 'future');
+      console.log(currentTime.$H)
+    }
+    console.log(idHour)
+    console.log($planSpnDiv.attr('id'))
+    // console.log(currentTime.$H)
   };
 
   // TODO: Add a listener for click events on the save button. This code should
