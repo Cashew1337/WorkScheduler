@@ -5,6 +5,10 @@ $(function dayPlanner() {
   var timeHeader = $('#currentDay');
   var currentTime = dayjs();
   var save = $('.saveBtn');
+  var hourIndex = $('.dailyPlan')
+
+  console.log(hourIndex)
+
 
   //Creates local storage array for saved events
   let eventStorage = JSON.parse(localStorage.getItem('event'));
@@ -14,24 +18,47 @@ $(function dayPlanner() {
   } else {
     eventTextArry = new Array(9)
   };
-  let hourIndex = $("textarea[data-index]")
+
+
+  function addId() {
     for (let i = 0; i < hourIndex.length; i++) {
-      if (hourIndex[i] < currentTime.$H - 9) {
-        $('textarea').addClass('past');
-      } else if (hourIndex[i] > currentTime.$H - 9) {
-        $('textarea').removeClass('present');
-        $('textarea').addClass('class', 'future');
-      } else if (hourIndex[i] === currentTime.$H - 9) {
-        $('textarea').removeClass('past');
-        $('textarea').addClass('class', 'present');
-      } 
-      console.log(hourIndex)
-      console.log(hourIndex[i])
-    };
-      
-      console.log(currentTime.$H - 9)
-      console.log(eventTextArry)
-    
+      hourIndex[i].id = 'hour-' + (i)
+      var hourId = hourIndex[i].id.split('hour-').join('')
+      var hourNum = parseInt(hourId);
+      // console.log(hourIndex, currentTime.$H - 9)
+      console.log(hourIndex[i].id, hourId)
+      console.log(hourNum < currentTime.$H - 9, hourNum === currentTime.$H - 9, hourNum > currentTime.$H - 9)
+    } 
+  }
+
+  function addRemoveClass () {
+    for (let i = 0; i < hourIndex.length; i++) {
+      var hourId = hourIndex[i].id.split('hour-').join('')
+      var hourNum = parseInt(hourId);
+      var hourPlan = hourIndex[i]
+      console.log(hourPlan.id)
+    if (hourNum < currentTime.$H - 9) {
+      console.log("if")
+      hourIndex[i].classList.remove('future');
+      hourIndex[i].classList.add('past');
+    } else if (hourNum === currentTime.$H - 9) {
+      console.log("else if 2")
+      hourIndex[i].classList.remove('past');
+      hourIndex[i].classList.add('present');
+    } else {
+      console.log("else if")
+      hourIndex[i].classList.remove('present');
+      hourIndex[i].classList.add('future');
+    }
+  }
+  }
+
+  addId();
+  addRemoveClass();
+  // console.log(hourIndex)
+  // console.log(currentTime.$H - 9)
+  // console.log(eventTextArry)
+
   save.click(function (e) {
     e.preventDefault;
     var dayEvents = $('button:.saveId');
